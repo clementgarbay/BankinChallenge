@@ -6,9 +6,10 @@
     "name": "Clément Garbay"
   },
   "scripts": {
-    "clean": "rm -r screenshots && mkdir screenshots",
+    "clean": "rm -r screenshots logs && mkdir screenshots logs",
+    "start:debug": "env DEBUG=\"*\" env DEBUG_COLORS=true yarn start 2>&1 | grep -v Network",
     "start": "yarn clean && node ./src/main.js",
-    "start:debug": "env DEBUG=\"*\" env DEBUG_COLORS=true yarn start 2>&1 | grep -v Network"
+    "test": "jest"
   },
   "dependencies": {
     "chalk": "^2.3.0",
@@ -23,6 +24,7 @@
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
-    "eslint-plugin-react": "^7.5.1"
+    "eslint-plugin-react": "^7.5.1",
+    "jest": "^22.0.6"
   }
 }
