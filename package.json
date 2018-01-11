@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "start": "rm -r screenshots && mkdir screenshots && node ./src/main.js",
+    "start:debug": "env DEBUG=\"*\" env DEBUG_COLORS=true yarn start 2>&1 | grep -v Network"
+  },
+  "dependencies": {
+    "lodash": "^4.17.4",
+    "puppeteer": "^0.13.0"
+  }
+}
