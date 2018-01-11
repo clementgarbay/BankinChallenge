@@ -1,0 +1,13 @@
+{
+  "editor.formatOnSave": true,
+  "javascript.format.enable": false,
+  "javascript.validate.enable": false,
+  "prettier.eslintIntegration": true,
+  "search.exclude": {
+    "**/.git": true,
+    "**/.vscode": true,
+    "**/.tmp": true,
+    "**/dist": true,
+    "**/node_modules": true
+  }
+}

@@ -1,0 +1,12 @@
+root: true
+
+parser: babel-eslint
+
+extends:
+  - airbnb
+
+env:
+  es6: true
+
+rules:
+  comma-dangle: [2, "never"]
