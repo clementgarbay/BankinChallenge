@@ -1,25 +1,36 @@
-const getElement = (page, selector) =>
-  page.evaluate((sel) => {
-    const element = document.querySelector(sel);
-    return element ? element.innerHTML: null;
-  }, selector);
+const logger = require('./logger');
 
-const getElements = (page, selector) =>
-  page.evaluate((sel) => {
+const getElement = (page, selector) => {
+  logger.info(`Get element matching '${selector}' on page '${page.url()}'`);
+
+  return page.evaluate((sel) => {
+    const element = document.querySelector(sel);
+    return element ? element.innerHTML : null;
+  }, selector);
+};
+
+const getElements = (page, selector) => {
+  logger.info(`Get elements matching '${selector}' on page '${page.url()}'`);
+
+  return page.evaluate((sel) => {
     const elements = document.querySelectorAll(sel);
     return elements ? Object.values(elements).map(element => element.innerHTML) : null;
   }, selector);
+};
 
 const getContainer = (page, frameId) => {
   const frames = page.frames();
-  const frame = frames.find(frame => frame.name() === frameId);
+  const frame = frames.find(f => f.name() === frameId);
   const container = frame || page;
 
+  logger.info(`Use ${frame ? 'iframe' : 'page'} as table container on page '${page.url()}'`);
+
   return container;
-}
+};
 
 async function clickOn(page, selector) {
-  console.log(`Click on ${selector}`);
+  logger.info(`Click on '${selector}' on page '${page.url()}'`);
+
   await page.click(selector);
 }
 
@@ -33,4 +44,4 @@ module.exports = {
   getElements,
   clickOn,
   screenshot
-}
+};

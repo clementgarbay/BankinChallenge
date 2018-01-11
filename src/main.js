@@ -1,6 +1,7 @@
 const puppeteer = require('puppeteer');
 const _ = require('lodash');
 const utils = require('./utils');
+const logger = require('./logger');
 
 const IFRAME_ID = 'fm';
 const TABLE_TR_SELECTOR = 'table > tbody > tr';
@@ -24,7 +25,8 @@ async function process(page) {
 }
 
 function getTransactions(browser, url) {
-  console.log(`Get transactions on page ${url}`);
+  logger.log(`Get transactions on page ${url}`);
+
   return new Promise(async (resolve, reject) => {
     try {
       const page = await browser.newPage();
@@ -53,15 +55,18 @@ function scrapper(browser) {
   const BASE_URL = 'https://web.bankin.com/challenge/index.html?start=';
 
   return async function run(chunkSize = 1, start = 0) {
-    console.log(`Run ${chunkSize + 1} chunks starting at ${start}`);
+    logger.info(`Run ${chunkSize + 1} chunks starting at ${start}`);
+
     try {
       const firstTransactions = await getTransactions(browser, `${BASE_URL}${start}`);
       const pageSize = firstTransactions.length;
 
       const transactionsPagesPromises = Array(chunkSize)
         .fill(1)
-        .map((_, index) =>
-          getTransactions(browser, `${BASE_URL}${start + (index + 1) * pageSize}`));
+        .map((val, index) => {
+          const nextStart = start + (index + 1) * pageSize;
+          return getTransactions(browser, `${BASE_URL}${nextStart}`);
+        });
 
       const transactionsPages = await Promise.all(transactionsPagesPromises);
       const isFinished = transactionsPages.some(transactions => transactions.length === 0);
@@ -75,7 +80,7 @@ function scrapper(browser) {
 
       return transactions.concat(...(await run(chunkSize, start + transactions.length)));
     } catch (error) {
-      console.log(error);
+      logger.error(error);
     }
   };
 
