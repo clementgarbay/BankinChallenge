@@ -1,57 +1,14 @@
 const puppeteer = require('puppeteer');
-const _ = require('lodash');
-const utils = require('./utils');
 const logger = require('./logger');
+const scrapper = require('./bankin-scrapper');
 
-const IFRAME_ID = 'fm';
-const TABLE_TR_SELECTOR = 'table > tbody > tr';
-const TABLE_TD_SELECTOR = `${TABLE_TR_SELECTOR} > td`;
-const TABLE_TBODY_SELECTOR = 'table > tbody';
-const IFRAME_TABLE_TBODY_SELECTOR = 'iframe';
-
-async function process(page) {
-  const tablePagePromise = page.waitForSelector(TABLE_TBODY_SELECTOR);
-  const tableIframePromise = page.waitForSelector(IFRAME_TABLE_TBODY_SELECTOR);
-
-  await Promise.race([tablePagePromise, tableIframePromise]);
-
-  const container = utils.getContainer(page, IFRAME_ID);
-
-  await container.waitForSelector(TABLE_TR_SELECTOR);
-
-  const elements = await utils.getElements(container, TABLE_TD_SELECTOR);
-
-  return _.chunk(elements, 3);
-}
-
-function getTransactions(browser, url) {
+async function getTransactions(browser, url) {
   logger.log(`Get transactions on page ${url}`);
 
-  return new Promise(async (resolve, reject) => {
-    try {
-      const page = await browser.newPage();
-
-      page.on('dialog', async (dialog) => {
-        await dialog.dismiss();
-        await page.waitForSelector('#btnGenerate');
-        await page.click('#btnGenerate');
-      });
-
-      // Called either after a dialog dismiss or nominal case
-      page.on('load', async () => {
-        const transactions = await process(page);
-        // page.close()
-        resolve(transactions);
-      });
-
-      await page.goto(url);
-    } catch (error) {
-      reject(error);
-    }
-  });
+  return scrapper.scrapUrl(browser, url);
 }
 
-function scrapper(browser) {
+function init(browser) {
   const BASE_URL = 'https://web.bankin.com/challenge/index.html?start=';
 
   return async function run(chunkSize = 1, start = 0) {
@@ -101,7 +58,7 @@ async function run() {
     headless: true
   });
 
-  console.log(JSON.stringify(await scrapper(browser)(20)));
+  console.log(JSON.stringify(await init(browser)(20)));
 }
 
 run();
