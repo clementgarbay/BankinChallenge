@@ -6,7 +6,7 @@
     "name": "Clément Garbay"
   },
   "scripts": {
-    "clean": "rm -r screenshots logs && mkdir screenshots logs",
+    "clean": "rm -r res screenshots logs && mkdir res screenshots logs",
     "start:debug": "env DEBUG=\"*\" env DEBUG_COLORS=true yarn start 2>&1 | grep -v Network",
     "start": "yarn clean && node ./src/main.js",
     "test": "jest"
@@ -16,6 +16,7 @@
     "dateformat": "^3.0.2",
     "lodash": "^4.17.4",
     "puppeteer": "^0.13.0",
+    "queue": "^4.4.2",
     "winston": "^2.4.0"
   },
   "devDependencies": {
