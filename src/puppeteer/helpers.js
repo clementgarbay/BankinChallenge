@@ -1,6 +1,6 @@
 const path = require('path');
-const logger = require('./logger');
-const utils = require('./utils');
+const logger = require('../logger');
+const fsUtils = require('../fs-utils');
 
 const TIMEOUT = 60000;
 
@@ -84,7 +84,7 @@ function helpers(page, timeout = TIMEOUT) {
   const screenshot = async (filename = 'screenshot') => {
     logger.info(`Screenshot '${filename}'`);
 
-    const ssDirectory = utils.createDirectory(path.join(__dirname, '../screenshots/'));
+    const ssDirectory = fsUtils.createDirectory(path.join(__dirname, '../screenshots/'));
     await page.screenshot({ path: path.join(ssDirectory, `${filename}.png`) });
   };
 

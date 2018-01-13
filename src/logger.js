@@ -2,9 +2,9 @@ const winston = require('winston');
 const dateformat = require('dateformat');
 const chalk = require('chalk');
 const path = require('path');
-const utils = require('./utils');
+const fsUtils = require('./fs-utils');
 
-const logDirectory = utils.createDirectory(path.join(__dirname, '../logs'));
+const logDirectory = fsUtils.createDirectory(path.join(__dirname, '../logs'));
 
 const logger = new winston.Logger({
   level: 'info',

@@ -2,41 +2,12 @@
  * This file contains all the scraping strategy between each page
  */
 
-const Queue = require('better-queue');
+const queueBuilder = require('../queue');
+const Task = require('../queue/Task');
 const logger = require('../logger');
 const scrapper = require('./scrapper');
 
 const BASE_URL = 'https://web.bankin.com/challenge/index.html';
-
-/**
- * POJO representing a Task in the queue
- */
-function Task(content) {
-  this.content = content;
-}
-/**
- * POJO representing the result of a task processed
- */
-function TaskResult(taskContent, result) {
-  this.taskContent = taskContent;
-  this.result = result;
-}
-/**
- * POJO representing the error of a task that failed
- */
-function TaskError(taskContent, error) {
-  this.taskContent = taskContent;
-  this.error = error;
-}
-
-/**
- * Builder returning a function that allows to process a task in the queue
- */
-const taskPromiseProcessorBuilder = processor => (task, done) => {
-  processor(task.content)
-    .then(result => done(null, new TaskResult(task.content, result)))
-    .catch(error => done(new TaskError(task.content, error)));
-};
 
 /**
  * Main runner function which launch scraping on each page by parallelizing using a tasks queue
@@ -45,7 +16,7 @@ async function run(browser, nbConcurrentTasks) {
   const getTransactions = scrapper.getTransactionsBuilder(browser);
 
   // Create scraping tasks queue
-  const queue = new Queue(taskPromiseProcessorBuilder(getTransactions), {
+  const queue = queueBuilder.create(getTransactions, {
     maxRetries: 2,
     concurrent: nbConcurrentTasks
   });

@@ -4,7 +4,7 @@
 
 const chunk = require('lodash/chunk');
 const logger = require('../logger');
-const helpers = require('../helpers');
+const helpers = require('../puppeteer/helpers');
 const transactions = require('./transactions');
 
 const IFRAME_ID = 'fm';
