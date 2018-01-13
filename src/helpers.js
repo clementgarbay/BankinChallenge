@@ -1,9 +1,15 @@
-const logger = require('./logger');
 const path = require('path');
+const logger = require('./logger');
 
 const TIMEOUT = 60000;
 
+/**
+ * Create a set of helpers functions to manipulate the page easily
+ */
 function helpers(page, timeout = TIMEOUT) {
+  /**
+   * Helper that get the first element on the page matching a specific selector
+   */
   const getElement = (selector) => {
     logger.info(`Get element matching '${selector}' on page '${page.url()}'`);
 
@@ -13,6 +19,9 @@ function helpers(page, timeout = TIMEOUT) {
     }, selector);
   };
 
+  /**
+   * Helper that get all elements on the page matching a specific selector
+   */
   const getElements = (selector) => {
     logger.info(`Get elements matching '${selector}' on page '${page.url()}'`);
 
@@ -22,6 +31,9 @@ function helpers(page, timeout = TIMEOUT) {
     }, selector);
   };
 
+  /**
+   * Helper that get container of the HTML table (either the frame if it exists, or the base page)
+   */
   const getContainer = (frameId) => {
     const frames = page.frames();
     const frame = frames.find(f => f.name() === frameId);
@@ -32,6 +44,9 @@ function helpers(page, timeout = TIMEOUT) {
     return container;
   };
 
+  /**
+   * Helper that navigate to a given URL
+   */
   const goto = async (url) => {
     logger.info(`Go to '${url}'`);
 
@@ -40,6 +55,9 @@ function helpers(page, timeout = TIMEOUT) {
     });
   };
 
+  /**
+   * Helper that click on an element matching a specific selector
+   */
   const clickOn = async (selector) => {
     logger.info(`Click on '${selector}' on page '${page.url()}'`);
 
@@ -48,6 +66,9 @@ function helpers(page, timeout = TIMEOUT) {
     });
   };
 
+  /**
+   * Helper that wait for an element matching a specific selector to be loaded
+   */
   const waitFor = async (selector) => {
     logger.info(`Wait for '${selector}' on page '${page.url()}'`);
 
@@ -56,6 +77,9 @@ function helpers(page, timeout = TIMEOUT) {
     });
   };
 
+  /**
+   * Helper that take a screenshot of the page
+   */
   const screenshot = async (filename = 'screenshot') => {
     logger.info(`Screenshot '${filename}'`);
 
