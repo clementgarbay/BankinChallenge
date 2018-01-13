@@ -5,7 +5,7 @@
 const chunk = require('lodash/chunk');
 const logger = require('../logger');
 const helpers = require('../puppeteer/helpers');
-const transactions = require('./transactions');
+const transactionAdapter = require('./transaction-adapter');
 
 const IFRAME_ID = 'fm';
 const TABLE_TR_SELECTOR = 'table > tbody > tr';
@@ -15,7 +15,12 @@ const IFRAME_SELECTOR = 'iframe';
 const BUTTON_RELOAD_SELECTOR = '#btnGenerate';
 const NB_COLUMNS = 3;
 
-// Process scrapping on a webpage
+/**
+ * Process scraping on a webpage
+ *
+ * @param {*} page  Puppeteer page instance
+ * @returns {Array} An array of row transaction (i.e. ["Savings","Transaction 4700","54€"])
+ */
 async function process(page) {
   const pageHelpers = helpers(page);
 
@@ -41,7 +46,13 @@ async function process(page) {
   return chunk(elements, NB_COLUMNS);
 }
 
-// Get transactions on a specific URL
+/**
+ * Get an array of Transactions object from a specific URL
+ *
+ * @param {*} browser         Puppeteer browser instance
+ * @param {string} url        URL string target
+ * @returns {Promise<Array>}  An array of Transaction
+ */
 async function getTransactions(browser, url) {
   logger.log(`Get transactions on page ${url}`);
 
@@ -59,9 +70,10 @@ async function getTransactions(browser, url) {
 
       // Called either after a dialog dismiss or after page load
       page.on('load', async () => {
-        const res = await process(page);
+        const rowTransactions = await process(page);
         await page.close();
-        resolve(transactions.toTransactions(res));
+        const transactions = rowTransactions.map(transactionAdapter.fromScrapedData);
+        resolve(transactions);
       });
 
       await pageHelpers.goto(url);

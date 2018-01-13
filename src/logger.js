@@ -2,7 +2,7 @@ const winston = require('winston');
 const dateformat = require('dateformat');
 const chalk = require('chalk');
 const path = require('path');
-const fsUtils = require('./fs-utils');
+const fsUtils = require('./utils/fs-utils');
 
 const logDirectory = fsUtils.createDirectory(path.join(__dirname, '../logs'));
 

@@ -1,5 +1,5 @@
 const puppeteer = require('puppeteer');
-const utils = require('../src/utils');
+const helpers = require('../src/puppeteer/helpers');
 
 // TODO: disable logging when running unit tests
 
@@ -20,7 +20,7 @@ test('should returns "Checking" value', async () => {
   const browser = await puppeteer.launch();
   const page = await setupPage(browser);
 
-  const element = await utils.getElement(page, 'table > tbody > tr > td');
+  const element = helpers(page).getElement(page, 'table > tbody > tr > td');
 
   expect(element).toBe('Checking');
 
@@ -31,7 +31,7 @@ test('should returns an array of various values', async () => {
   const browser = await puppeteer.launch();
   const page = await setupPage(browser);
 
-  const element = await utils.getElements(page, 'table > tbody > tr > td');
+  const element = helpers(page).getElements(page, 'table > tbody > tr > td');
   const expected = [
     'Checking',
     'Transaction 1',

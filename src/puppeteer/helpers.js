@@ -1,6 +1,6 @@
 const path = require('path');
 const logger = require('../logger');
-const fsUtils = require('../fs-utils');
+const fsUtils = require('../utils/fs-utils');
 
 const TIMEOUT = 60000;
 

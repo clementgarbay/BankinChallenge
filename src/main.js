@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 const path = require('path');
 const scrapperRunner = require('./bankin/scrapper-runner');
-const fsUtils = require('./fs-utils');
+const fsUtils = require('./utils/fs-utils');
 
 async function main() {
   // Create browser (chrome headless)

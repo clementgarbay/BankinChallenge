@@ -8,6 +8,7 @@
   "scripts": {
     "start:debug": "env DEBUG=\"*\" env DEBUG_COLORS=true yarn start 2>&1 | grep -v Network",
     "start": "node ./src/main.js",
+    "test:watch": "jest --watch",
     "test": "jest"
   },
   "dependencies": {
