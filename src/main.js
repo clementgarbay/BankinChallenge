@@ -1,4 +1,5 @@
 const puppeteer = require('puppeteer');
+const path = require('path');
 const scrapperRunner = require('./bankin/scrapper-runner');
 const utils = require('./utils');
 
@@ -13,7 +14,11 @@ async function main() {
   await browser.close();
 
   // Save transactions in JSON file
-  await utils.saveAsFile('res.json', JSON.stringify(transactions, null, 2));
+  await utils.saveAsFile(
+    path.join(__dirname, '../res'),
+    'res.json',
+    JSON.stringify(transactions, null, 2)
+  );
 }
 
 main();

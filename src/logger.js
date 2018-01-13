@@ -1,30 +1,22 @@
 const winston = require('winston');
 const dateformat = require('dateformat');
 const chalk = require('chalk');
+const path = require('path');
+const utils = require('./utils');
+
+const logDirectory = utils.createDirectory(path.join(__dirname, '../logs'));
 
 const logger = new winston.Logger({
   level: 'info',
   transports: [
-    // https://gist.github.com/michaelneu/867e31b47b4ec5810b5d26e6aacd5e2b
     new winston.transports.Console({
       timestamp() {
         return dateformat(Date.now(), 'yyyy-mm-dd HH:MM:ss.l');
       },
       formatter(options) {
-        let message = '';
-
-        if (options.message !== undefined) {
-          message = options.message;
-        }
-
-        let meta = '';
-
-        if (options.meta && Object.keys(options.meta).length) {
-          meta = `\n\t${JSON.stringify(options.meta)}`;
-        }
+        const message = options.message || '';
 
         let level = options.level.toUpperCase();
-
         switch (level) {
           case 'INFO':
             level = chalk.cyan(level);
@@ -42,12 +34,10 @@ const logger = new winston.Logger({
             break;
         }
 
-        const output = [`[${options.timestamp()}][${level}]`, message, meta];
-
-        return output.join(' ');
+        return `[${options.timestamp()}][${level}] ${message}`;
       }
     }),
-    new winston.transports.File({ filename: 'logs/scrapper.log' })
+    new winston.transports.File({ filename: path.join(logDirectory, 'scrapper.log') })
   ]
 });
 

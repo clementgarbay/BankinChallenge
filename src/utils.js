@@ -1,9 +1,16 @@
 const path = require('path');
 const fs = require('fs');
 
-async function saveAsFile(filename = 'res.json', data) {
+function createDirectory(directoryPath) {
+  if (!fs.existsSync(directoryPath)) {
+    fs.mkdirSync(directoryPath);
+  }
+  return directoryPath;
+}
+
+async function saveAsFile(directory = 'res', fileName = 'res.txt', data) {
   return new Promise((resolve, reject) => {
-    fs.writeFile(path.join(__dirname, `../res/${filename}`), data, (error) => {
+    fs.writeFile(path.join(createDirectory(directory), fileName), data, (error) => {
       if (error) reject(error);
       else resolve();
     });
@@ -11,5 +18,6 @@ async function saveAsFile(filename = 'res.json', data) {
 }
 
 module.exports = {
+  createDirectory,
   saveAsFile
 };

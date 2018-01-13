@@ -6,9 +6,8 @@
     "name": "Clément Garbay"
   },
   "scripts": {
-    "clean": "rm -r res screenshots logs && mkdir res screenshots logs",
     "start:debug": "env DEBUG=\"*\" env DEBUG_COLORS=true yarn start 2>&1 | grep -v Network",
-    "start": "yarn clean && node ./src/main.js",
+    "start": "node ./src/main.js",
     "test": "jest"
   },
   "dependencies": {
