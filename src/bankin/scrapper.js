@@ -2,9 +2,8 @@
  * This file contains all the business content and the scrapping strategy of one webpage
  */
 
-const _ = require('lodash');
+const chunk = require('lodash/chunk');
 const logger = require('../logger');
-const utils = require('../utils');
 const helpers = require('../helpers');
 const transactions = require('./transactions');
 
@@ -35,14 +34,11 @@ async function process(page) {
   // Wait table in container
   await containerHelpers.waitFor(TABLE_TR_SELECTOR);
 
-  // TOREMOVE
-  // await utils.screenshot(page, page.url().split('=')[1]);
-
   // Get all `td` elements in table
   const elements = await containerHelpers.getElements(TABLE_TD_SELECTOR);
 
-  // Create an array of elements split into groups of transaction
-  return _.chunk(elements, NB_COLUMNS);
+  // Create an array of elements split into groups of transactions
+  return chunk(elements, NB_COLUMNS);
 }
 
 // Get transactions on a specific URL
@@ -64,7 +60,7 @@ async function getTransactions(browser, url) {
       // Called either after a dialog dismiss or after page load
       page.on('load', async () => {
         const res = await process(page);
-        page.close();
+        await page.close();
         resolve(transactions.toTransactions(res));
       });
 
@@ -78,5 +74,5 @@ async function getTransactions(browser, url) {
 }
 
 module.exports = {
-  getTransactions
+  getTransactionsBuilder: browser => url => getTransactions(browser, url)
 };

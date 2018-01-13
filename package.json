@@ -12,11 +12,11 @@
     "test": "jest"
   },
   "dependencies": {
+    "better-queue": "^3.8.6",
     "chalk": "^2.3.0",
     "dateformat": "^3.0.2",
     "lodash": "^4.17.4",
     "puppeteer": "^0.13.0",
-    "queue": "^4.4.2",
     "winston": "^2.4.0"
   },
   "devDependencies": {

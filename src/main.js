@@ -3,17 +3,16 @@ const scrapperRunner = require('./bankin/scrapper-runner');
 const utils = require('./utils');
 
 async function main() {
-  const browser = await puppeteer.launch({
-    headless: true,
-    timeout: 60000
-  });
+  // Create browser (chrome headless)
+  const browser = await puppeteer.launch();
 
-  const transactions = await scrapperRunner(browser).run(10);
+  // Run scrapper
+  const transactions = await scrapperRunner(browser).run(8);
 
-  // const pages = await browser.pages();
-  // pages.forEach(page => page.close());
+  // Close browser
   await browser.close();
 
+  // Save transactions in JSON file
   await utils.saveAsFile('res.json', JSON.stringify(transactions, null, 2));
 }
 
