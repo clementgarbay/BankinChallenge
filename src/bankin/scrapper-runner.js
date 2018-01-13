@@ -11,6 +11,10 @@ const BASE_URL = 'https://web.bankin.com/challenge/index.html';
 
 /**
  * Main runner function which launch scraping on each page by parallelizing using a tasks queue
+ *
+ * @param {*} browser                 Puppeteer browser instance
+ * @param {Number} nbConcurrentTasks  Number of concurrent tasks in the queue
+ * @returns {Array}                   Array of Transaction
  */
 async function run(browser, nbConcurrentTasks) {
   const getTransactions = scrapper.getTransactionsBuilder(browser);

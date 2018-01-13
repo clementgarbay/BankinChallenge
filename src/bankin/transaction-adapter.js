@@ -4,7 +4,7 @@ const Transation = require('./Transaction');
 /**
  * Transform an array of scraped data to a Transation object
  *
- * @param {Array} data    Row transaction (i.e. ["Savings","Transaction 4700","54€"])
+ * @param {Array} data  Row transaction (i.e. ["Savings","Transaction 4700","54€"])
  * @returns Corresponding Transation object
  */
 const fromScrapedData = (data = []) =>
