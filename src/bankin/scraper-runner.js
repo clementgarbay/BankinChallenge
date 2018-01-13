@@ -5,7 +5,7 @@
 const queueBuilder = require('../queue');
 const Task = require('../queue/Task');
 const logger = require('../logger');
-const scrapper = require('./scrapper');
+const scraper = require('./scraper');
 
 const BASE_URL = 'https://web.bankin.com/challenge/index.html';
 
@@ -17,7 +17,7 @@ const BASE_URL = 'https://web.bankin.com/challenge/index.html';
  * @returns {Array}                   Array of Transaction
  */
 async function run(browser, nbConcurrentTasks) {
-  const getTransactions = scrapper.getTransactionsBuilder(browser);
+  const getTransactions = scraper.getTransactionsBuilder(browser);
 
   // Create scraping tasks queue
   const queue = queueBuilder.create(getTransactions, {

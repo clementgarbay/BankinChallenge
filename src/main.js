@@ -1,14 +1,14 @@
 const puppeteer = require('puppeteer');
 const path = require('path');
-const scrapperRunner = require('./bankin/scrapper-runner');
+const scraperRunner = require('./bankin/scraper-runner');
 const fsUtils = require('./utils/fs-utils');
 
 async function main() {
   // Create browser instance (chrome headless)
   const browser = await puppeteer.launch();
 
-  // Run scrapper
-  const transactions = await scrapperRunner(browser).run(10);
+  // Run scraper
+  const transactions = await scraperRunner(browser).run(10);
 
   // Close browser
   await browser.close();

@@ -37,7 +37,7 @@ const logger = new winston.Logger({
         return `[${options.timestamp()}][${level}] ${message}`;
       }
     }),
-    new winston.transports.File({ filename: path.join(logDirectory, 'scrapper.log') })
+    new winston.transports.File({ filename: path.join(logDirectory, 'scraper.log') })
   ]
 });
 

@@ -1,5 +1,5 @@
 /**
- * This file contains all the business content and the scrapping strategy of one webpage
+ * This file contains all the business content and the scraping strategy of one webpage
  */
 
 const chunk = require('lodash/chunk');

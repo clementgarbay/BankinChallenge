@@ -11,7 +11,7 @@ async function setupPage(browser) {
   });
 
   // TODO: custom filepath
-  await page.goto('file:///Users/clement/dev/bankin-scrapping/test/fixtures/index-table.htm');
+  await page.goto('file:///Users/clement/dev/bankin-scraping/test/fixtures/index-table.htm');
 
   return page;
 }
