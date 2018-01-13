@@ -70,7 +70,8 @@ async function run(browser, nbConcurrentTasks) {
   return new Promise((resolve) => {
     // When there are no more tasks on the queue, resolve all transactions
     queue.on('drain', () => {
-      resolve(transactions);
+      const sortedTransactions = transactions.sort((t1, t2) => t1.id - t2.id);
+      resolve(sortedTransactions);
     });
   });
 }

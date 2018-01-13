@@ -4,7 +4,7 @@ const scrapperRunner = require('./bankin/scrapper-runner');
 const fsUtils = require('./utils/fs-utils');
 
 async function main() {
-  // Create browser (chrome headless)
+  // Create browser instance (chrome headless)
   const browser = await puppeteer.launch();
 
   // Run scrapper
@@ -17,7 +17,7 @@ async function main() {
   await fsUtils.saveAsFile(
     path.join(__dirname, '../res'),
     'res.json',
-    JSON.stringify(transactions, null, 2)
+    JSON.stringify(transactions.map(transaction => transaction.toJson()), null, 2)
   );
 }
 
