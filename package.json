@@ -11,6 +11,9 @@
     "type": "git",
     "url": "https://github.com/clementgarbay/BankinChallenge"
   },
+  "engines": {
+    "node": ">=8.0.0"
+  },
   "scripts": {
     "start:debug": "env DEBUG=\"*\" env DEBUG_COLORS=true yarn start 2>&1 | grep -v Network",
     "start:log": "LOG_CONSOLE=true node ./src/main.js",

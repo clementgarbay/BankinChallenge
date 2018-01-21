@@ -6,6 +6,8 @@ Un navigateur de type _Chrome Headless_ ainsi que l'API [_puppeteer_](https://gi
 
 ## Lancement
 
+Il est nécessaire d'utiliser une version de node >=8 (besoin de `async/await`).
+
 ```
 yarn install
 yarn start
