@@ -3,9 +3,14 @@
  */
 
 const chunk = require('lodash/chunk');
+const Promise = require('bluebird');
 const logger = require('../logger');
 const helpers = require('../puppeteer/helpers');
 const transactionAdapter = require('./transaction-adapter');
+
+Promise.config({
+  cancellation: true
+});
 
 const IFRAME_ID = 'fm';
 const TABLE_TR_SELECTOR = 'table > tbody > tr';
@@ -56,9 +61,15 @@ async function process(page) {
 async function getTransactions(browser, url) {
   logger.log(`Get transactions on page ${url}`);
 
-  return new Promise(async (resolve, reject) => {
+  return new Promise(async (resolve, reject, onCancel) => {
     const page = await browser.newPage();
     const pageHelpers = helpers(page);
+
+    onCancel(async () => {
+      logger.log(`Cancel get transactions on page ${url}`);
+      await page.close();
+      resolve();
+    });
 
     try {
       page.on('dialog', async (dialog) => {
@@ -79,7 +90,6 @@ async function getTransactions(browser, url) {
       await pageHelpers.goto(url);
     } catch (error) {
       logger.error(`Error on page ${url}: ${error}`);
-
       reject(error);
     }
   });

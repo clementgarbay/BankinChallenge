@@ -7,9 +7,13 @@ const TaskError = require('./TaskError');
  */
 const create = (asyncProcessor, options) =>
   new Queue((task, done) => {
-    asyncProcessor(task.content)
-      .then(result => done(null, new TaskResult(task.content, result)))
-      .catch(error => done(new TaskError(task.content, error)));
+    const processor = asyncProcessor(task.content)
+      .then(result => done(null, new TaskResult(task, result)))
+      .catch(error => done(new TaskError(task, error)));
+
+    return {
+      cancel: () => processor.cancel()
+    };
   }, options);
 
 module.exports = {
