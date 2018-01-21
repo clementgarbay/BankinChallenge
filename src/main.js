@@ -8,7 +8,7 @@ async function main() {
   const browser = await puppeteer.launch();
 
   // Run scraper
-  const transactions = await scraperRunner(browser).run(10);
+  const transactions = await scraperRunner(browser).run(30);
 
   // Close browser
   await browser.close();
