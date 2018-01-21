@@ -11,6 +11,12 @@ yarn install
 yarn start
 ```
 
+Pour avoir le détail des opérations effectuées :
+
+```
+yarn start:log
+```
+
 ## Structure
 
 ### `/bankin`
