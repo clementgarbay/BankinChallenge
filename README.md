@@ -80,4 +80,4 @@ Environ 5000 résultats sont récupérés en ~23 secondes.
 ## Améliorations possibles
 
 * Permettre d'annuler des tâches lancées inutilement. Par exemple, il s'agirait de lancer encore plus de tâches au départ, mais que la queue annule les tâches qu'elle aurait lancé en trop inutilement (`startPage` trop grand) suivant la valeur de `startPage` de la dernière page (i.e. première page qui ne contient plus aucun élément). J'ai commencé ce travail dans la branche `with-cancellation`, mais je n'ai pas eu le temps de finir.
-* Utiliser un transpileur typé JS (type TypeScript) permettant d'avoir un code plus sûr et plus facilement compréhensible.
+* Multibrowser / multithread
